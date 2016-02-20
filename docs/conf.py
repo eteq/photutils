@@ -67,7 +67,7 @@ intersphinx_mapping['skimage'] = ('http://scikit-image.org/docs/stable/', None)
 
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
-exclude_patterns.append('_templates')
+exclude_patterns.append('_templates')  
 
 # This is added to the end of RST files - a good place to put substitutions to
 # be used globally.
@@ -269,7 +269,8 @@ def notebooks_to_rst(app):
         nbc_app.config.RSTExporter.preprocessors = pps
 
         nbc_app.notebooks = nbs
-
+        import nbconvert
+        app.info('nbc vers' + str(nbconvert.__version__))
         nbc_app.start()
     except:
         e = sys.exc_info()[0]
