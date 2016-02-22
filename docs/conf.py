@@ -262,7 +262,7 @@ def notebooks_to_rst(app):
         app.info("Executing and converting these notebooks to sphinx files: " + str(nbs))
 
         nbc_app = NbConvertApp()
-        nbc_app.initialize()
+        nbc_app.initialize(argv=[])
 
         nbc_app.writer = OrphanizerWriter()
 
