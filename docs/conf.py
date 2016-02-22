@@ -67,7 +67,7 @@ intersphinx_mapping['skimage'] = ('http://scikit-image.org/docs/stable/', None)
 
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
-exclude_patterns.append('_templates')  
+exclude_patterns.append('_templates')
 
 # This is added to the end of RST files - a good place to put substitutions to
 # be used globally.
@@ -204,6 +204,7 @@ def notebooks_to_rst(app):
         from nbconvert.preprocessors import Preprocessor, ExecutePreprocessor
         from nbconvert.exporters import RSTExporter
         from nbformat import NotebookNode
+        from nbconvert import __version__ as nbc_vers
     except ImportError:
         try:
             from IPython.nbconvert.nbconvertapp import NbConvertApp
@@ -211,6 +212,8 @@ def notebooks_to_rst(app):
             from IPython.nbconvert.preprocessors import Preprocessor
             from IPython.nbconvert.exporters import RSTExporter
             from IPython.nbformat import NotebookNode
+            from IPython import __version__ as nbc_vers
+            nbc_vers = 'ipy:' + nbc_vers
         except ImportError:
             raise ImportError('Failed to find Jupyter or IPython. Cannot build '
                               'the notebooks embedded in the docs. Proceeding '
@@ -248,6 +251,9 @@ def notebooks_to_rst(app):
                 del nb.cells[0]
             return nb, resources
 
+    import nbconvert
+        app.info('nbc vers' + str(nbc_vers))
+
     olddir = os.path.abspath(os.curdir)
     try:
         srcdir = os.path.abspath(os.path.split(__file__)[0])
@@ -269,8 +275,7 @@ def notebooks_to_rst(app):
         nbc_app.config.RSTExporter.preprocessors = pps
 
         nbc_app.notebooks = nbs
-        import nbconvert
-        app.info('nbc vers' + str(nbconvert.__version__))
+
         nbc_app.start()
     except:
         e = sys.exc_info()[0]
