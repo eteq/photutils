@@ -251,8 +251,7 @@ def notebooks_to_rst(app):
                 del nb.cells[0]
             return nb, resources
 
-    import nbconvert
-        app.info('nbc vers' + str(nbc_vers))
+    app.info('nbc vers: ' + str(nbc_vers))
 
     olddir = os.path.abspath(os.curdir)
     try:
