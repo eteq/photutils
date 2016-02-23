@@ -201,7 +201,7 @@ def notebooks_to_rst(app):
         # post "big-split", nbconvert is a separate namespace
         from nbconvert.nbconvertapp import NbConvertApp
         from nbconvert.writers import FilesWriter
-        from nbconvert.preprocessors import Preprocessor, ExecutePreprocessor
+        from nbconvert.preprocessors import Preprocessor, ExecutePreprocessor, execute
         from nbconvert.exporters import RSTExporter
         from nbformat import NotebookNode
         from nbconvert import __version__ as nbc_vers
@@ -209,7 +209,7 @@ def notebooks_to_rst(app):
         try:
             from IPython.nbconvert.nbconvertapp import NbConvertApp
             from IPython.nbconvert.writers import FilesWriter
-            from IPython.nbconvert.preprocessors import Preprocessor
+            from IPython.nbconvert.preprocessors import Preprocessor, ExecutePreprocessor, execute
             from IPython.nbconvert.exporters import RSTExporter
             from IPython.nbformat import NotebookNode
             from IPython import __version__ as nbc_vers
@@ -250,6 +250,12 @@ def notebooks_to_rst(app):
             if 'sys.path' in nb.cells[0].source:
                 del nb.cells[0]
             return nb, resources
+
+    class MonkeypatchCellExecutionError(execute.CellExecutionError):
+        def __str__(self):
+            sstr = super(MonkeypatchCellExecutionError, self).__str__()
+            return sstr + ' Traceback:\n' + str(self.traceback)
+    execute.CellExecutionError = MonkeypatchCellExecutionError
 
     app.info('nbc vers: ' + str(nbc_vers))
 
