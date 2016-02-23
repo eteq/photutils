@@ -1,7 +1,7 @@
 Cython
 numpy
 scipy
-matplotlib
+matplotlib>=1.5
 scikit-image
 astropy-helpers
 astropy
