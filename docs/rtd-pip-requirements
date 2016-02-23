@@ -4,5 +4,5 @@ scipy
 matplotlib>=1.5
 scikit-image
 astropy-helpers
-astropy
+astropy>=1.1
 jupyter
