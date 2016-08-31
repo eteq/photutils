@@ -63,8 +63,9 @@ class TestDAOPhotPSFPhotometry(object):
         median_bkg = MedianBackground(sigma=3.)
         psf_model = IntegratedGaussianPRF(sigma=sigma_psf)
         fitter = LevMarLSQFitter()
-        photometry = DAOPhotPSFPhotometry(find=daofind, group=daogroup,
-                                          bkg=median_bkg, psf=psf_model,
+        photometry = DAOPhotPSFPhotometry(finder=daofind, grouper=daogroup,
+                                          bkg_estimator=median_bkg,
+                                          psf_model=psf_model,
                                           fitter=LevMarLSQFitter(),
                                           niters=1, fitshape=(11,11))
 
@@ -80,8 +81,9 @@ class TestDAOPhotPSFPhotometry(object):
         # test fixed photometry
         psf_model.x_0.fixed = True
         psf_model.y_0.fixed = True
-        photometry = DAOPhotPSFPhotometry(group=daogroup, bkg=median_bkg,
-                                          psf=psf_model, fitter=LevMarLSQFitter(),
+        photometry = DAOPhotPSFPhotometry(grouper=daogroup,
+                                          bkg_estimator=median_bkg,
+                                          psf_model=psf_model, fitter=LevMarLSQFitter(),
                                           fitshape=(11,11))
 
         pos = Table(names=['x_0', 'y_0'], data=[sources['x_mean'],
@@ -126,8 +128,9 @@ class TestDAOPhotPSFPhotometry(object):
         median_bkg = MedianBackground(sigma=3.)
         psf_model = IntegratedGaussianPRF(sigma=sigma_psf)
         fitter = LevMarLSQFitter()
-        phot = DAOPhotPSFPhotometry(find=daofind, group=daogroup,
-                                    bkg=median_bkg, psf=psf_model,
+        phot = DAOPhotPSFPhotometry(finder=daofind, grouper=daogroup,
+                                    bkg_estimator=median_bkg,
+                                    psf_model=psf_model,
                                     fitter=LevMarLSQFitter(),
                                     niters=1, fitshape=(11,11))
         
@@ -143,8 +146,10 @@ class TestDAOPhotPSFPhotometry(object):
         # test fixed photometry
         psf_model.x_0.fixed = True
         psf_model.y_0.fixed = True
-        phot = DAOPhotPSFPhotometry(group=daogroup, bkg=median_bkg,
-                                    psf=psf_model, fitter=LevMarLSQFitter(),
+        phot = DAOPhotPSFPhotometry(grouper=daogroup,
+                                    bkg_estimator=median_bkg,
+                                    psf_model=psf_model,
+                                    fitter=LevMarLSQFitter(),
                                     fitshape=(11,11))
 
         pos = Table(names=['x_0', 'y_0'], data=[sources['x_mean'],
@@ -168,9 +173,10 @@ class TestDAOPhotPSFPhotometryAttributes(object):
         median_bkg = MedianBackground(sigma=3.)
         psf_model = IntegratedGaussianPRF(sigma=1.)
         fitter = LevMarLSQFitter()
-        phot = DAOPhotPSFPhotometry(find=daofind, group=daogroup, bkg=median_bkg,
-                                    psf=psf_model, fitter=fitter, niters=1.1,
-                                    fitshape=(11,11))
+        phot = DAOPhotPSFPhotometry(finder=daofind, grouper=daogroup,
+                                    bkg_estimator=median_bkg,
+                                    psf_model=psf_model, fitter=fitter,
+                                    niters=1.1, fitshape=(11,11))
         # tests that niters is set to an integer even if the user inputs
         # a float
         assert_equal(phot.niters, 1)
@@ -186,9 +192,10 @@ class TestDAOPhotPSFPhotometryAttributes(object):
         median_bkg = MedianBackground(sigma=3.)
         psf_model = IntegratedGaussianPRF(sigma=1.)
         fitter = LevMarLSQFitter()
-        phot = DAOPhotPSFPhotometry(find=daofind, group=daogroup, bkg=median_bkg,
-                                    psf=psf_model, fitter=fitter, niters=1.1,
-                                    fitshape=(11,11))
+        phot = DAOPhotPSFPhotometry(finder=daofind, grouper=daogroup,
+                                    bkg_estimator=median_bkg,
+                                    psf_model=psf_model, fitter=fitter,
+                                    niters=1.1, fitshape=(11,11))
         # test that a ValuError is raised if fitshape has even components
         with pytest.raises(ValueError):
             phot.fitshape = (2, 2)
@@ -210,9 +217,10 @@ class TestDAOPhotPSFPhotometryAttributes(object):
         median_bkg = MedianBackground(sigma=3.)
         psf_model = IntegratedGaussianPRF(sigma=1.)
         fitter = LevMarLSQFitter()
-        phot = DAOPhotPSFPhotometry(find=daofind, group=daogroup, bkg=median_bkg,
-                                    psf=psf_model, fitter=fitter, niters=1.1,
-                                    fitshape=(11,11))
+        phot = DAOPhotPSFPhotometry(finder=daofind, grouper=daogroup,
+                                    bkg_estimator=median_bkg,
+                                    psf_model=psf_model, fitter=fitter,
+                                    niters=1.1, fitshape=(11,11))
         # test that aperture_radius was set to None by default
         assert_equal(phot.aperture_radius, None)
 
