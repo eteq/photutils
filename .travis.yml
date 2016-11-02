@@ -48,60 +48,10 @@ matrix:
     fast_finish: true
 
     include:
-        # Try MacOS X
-        - os: osx
-          env: SETUP_CMD='test'
-
-        # Do a coverage test in Python 2. Move coverage to 3.x once speed
-        # issues have been solved; astropy/astropy#4826
-        - os: linux
-          env: PYTHON_VERSION=2.7 SETUP_CMD='test --coverage'
-
-        # Check for sphinx doc build warnings - we do this first because it
-        # may run for a long time
-        - os: linux
-          env: PYTHON_VERSION=2.7 SETUP_CMD='build_sphinx -w'
-               CONDA_DEPENDENCIES='Cython scipy scikit-image matplotlib jupyter'
-        - os: linux
-          env: SETUP_CMD='build_sphinx -w'
-               CONDA_DEPENDENCIES='Cython scipy scikit-image matplotlib jupyter'
-
-        # Try all python versions and Numpy versions. Since we can assume that
-        # the Numpy developers have taken care of testing Numpy with different
-        # versions of Python, we can vary Python and Numpy versions at the same
-        # time.
-        - os: linux
-          env: PYTHON_VERSION=2.7 NUMPY_VERSION=1.7
-               CONDA_DEPENDENCIES='Cython scipy scikit-image matplotlib qt=4'
-        - os: linux
-          env: PYTHON_VERSION=3.3 NUMPY_VERSION=1.8
-        - os: linux
-          env: PYTHON_VERSION=3.4 NUMPY_VERSION=1.9
-        - os: linux
-          env: PYTHON_VERSION=3.5 NUMPY_VERSION=1.10
-
-        # Now try Astropy dev and LTS vesions with the latest 3.x and 2.7.
-        - os: linux
-          env: PYTHON_VERSION=2.7 ASTROPY_VERSION=development
-        - os: linux
-          env: ASTROPY_VERSION=development
         - os: linux
           env: PYTHON_VERSION=2.7 ASTROPY_VERSION=lts
         - os: linux
           env: ASTROPY_VERSION=lts
-
-        # Try with optional dependencies disabled
-        - os: linux
-          env: PYTHON_VERSION=2.7 CONDA_DEPENDENCIES='Cython'
-        - os: linux
-          env: CONDA_DEPENDENCIES='Cython'
-
-        # Try numpy pre-release
-        - os: linux
-          env: NUMPY_VERSION=prerelease
-
-    allow_failures:
-      - env: NUMPY_VERSION=prerelease
 
 install:
     - git clone git://github.com/astropy/ci-helpers.git
