@@ -319,8 +319,9 @@ class BasicPSFPhotometry(object):
             ``group_id``, ``x_0``, ``y_0``, ``flux_0``.  ``x_0`` and
             ``y_0`` are initial estimates of the centroids and
             ``flux_0`` is an initial estimate of the flux. Additionally,
-            columns named as ``<param_name>_0`` are required to fit any other
-            free (non fixed) parameter.
+            columns named as ``<param_name>_0`` are required if any other
+            parameter in the psf model is free (i.e., the ``fixed``
+            attribute of that parameter is ``False``).
 
         Returns
         -------
